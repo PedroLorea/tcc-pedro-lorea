@@ -1,0 +1,16 @@
+Django
+djangorestframework
+django-cors-headers
+django-extensions
+PyJWT
+python-dotenv
+requests
+pika
+cryptography
+bcrypt
+pydantic
+pydantic_core
+annotated-types
+sqlparse
+tzdata
+websockets

@@ -2,11 +2,13 @@ FROM node:18-slim
 
 WORKDIR /app
 
-# Instala dependências
+# Copia package.json e package-lock.json (se existir)
 COPY package*.json ./
+
+# Instala dependências
 RUN npm install --production
 
-# Copia o código
+# Copia o restante do código
 COPY . .
 
 EXPOSE 8002

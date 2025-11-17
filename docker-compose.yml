@@ -1,0 +1,121 @@
+services:
+
+  # ==========================
+  # RABBITMQ
+  # ==========================
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  # ==========================
+  # FRETE (Django)
+  # ==========================
+  frete:
+    build: ./tcc-aplicacao/frete_service
+    container_name: frete_service
+    ports:
+      - "8000:8000"
+    environment:
+      RABBITMQ_HOST: rabbitmq
+    volumes:
+      - ./tcc-aplicacao/frete_service:/app
+    depends_on:
+      - rabbitmq
+
+  # ==========================
+  # PAGAMENTO (Django)
+  # ==========================
+  pagamento:
+    build: ./tcc-aplicacao/pagamento_service
+    container_name: pagamento_service
+    ports:
+      - "8001:8000"
+    environment:
+      RABBITMQ_HOST: rabbitmq
+    volumes:
+      - ./tcc-aplicacao/pagamento_service:/app
+    depends_on:
+      - rabbitmq
+
+  # ==========================
+  # SUPORTE (Node)
+  # ==========================
+  suporte:
+    build: ./tcc-aplicacao/suporte_service
+    container_name: suporte_service
+    ports:
+      - "8002:8000"
+
+  # ==========================
+  # AUTENTICAÇÃO (Django)
+  # ==========================
+  autenticacao:
+    build: ./tcc-aplicacao/autenticacao_service
+    container_name: autenticacao_service
+    ports:
+      - "8003:8000"
+    environment:
+      RABBITMQ_HOST: rabbitmq
+    volumes:
+      - ./tcc-aplicacao/autenticacao_service:/app
+    depends_on:
+      - rabbitmq
+
+  # ==========================
+  # NOTIFICAÇÃO (Python WebSocket)
+  # ==========================
+  notificacao:
+    build: ./tcc-aplicacao/notificacao_service
+    container_name: notificacao_service
+    ports:
+      - "8004:8004"
+    environment:
+      RABBITMQ_HOST: rabbitmq
+    volumes:
+      - ./tcc-aplicacao/notificacao_service:/app
+    depends_on:
+      - rabbitmq
+
+  # ==========================
+  # RASTREAMENTO (Django)
+  # ==========================
+  rastreamento:
+    build: ./tcc-aplicacao/rastreamento_service
+    container_name: rastreamento_service
+    ports:
+      - "8005:8000"
+    environment:
+      RABBITMQ_HOST: rabbitmq
+    volumes:
+      - ./tcc-aplicacao/rastreamento_service:/app
+    depends_on:
+      - rabbitmq
+
+  # ==========================
+  # FRONTEND (Next.js)
+  # ==========================
+  frontend:
+    build: ./tcc-frontend
+    container_name: tcc_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_FRETE_SERVICE_URL: http://frete:8000
+      NEXT_PUBLIC_PAGAMENTO_SERVICE_URL: http://pagamento:8000
+      NEXT_PUBLIC_SUPORTE_SERVICE_URL: http://suporte:8000
+      NEXT_PUBLIC_AUTENTICACAO_SERVICE_URL: http://autenticacao:8000
+      NEXT_PUBLIC_NOTIFICACAO_SERVICE_URL: ws://notificacao:8004
+      NEXT_PUBLIC_RASTREAMENTO_SERVICE_URL: http://rastreamento:8000
+    depends_on:
+      - frete
+      - pagamento
+      - suporte
+      - autenticacao
+      - notificacao
+      - rastreamento
