@@ -11,6 +11,6 @@ RUN npm install --production
 # Copia o restante do código
 COPY . .
 
-EXPOSE 8002
+EXPOSE 8000
 
 CMD ["node", "index.js"]

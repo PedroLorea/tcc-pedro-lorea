@@ -103,13 +103,20 @@ services:
     container_name: tcc_frontend
     ports:
       - "3000:3000"
+    # environment:
+    #   NEXT_PUBLIC_FRETE_SERVICE_URL: http://frete:8000
+    #   NEXT_PUBLIC_PAGAMENTO_SERVICE_URL: http://pagamento:8000
+    #   NEXT_PUBLIC_SUPORTE_SERVICE_URL: http://suporte:8000
+    #   NEXT_PUBLIC_AUTENTICACAO_SERVICE_URL: http://autenticacao:8000
+      # NEXT_PUBLIC_NOTIFICACAO_SERVICE_URL: ws://notificacao:8004
+      # NEXT_PUBLIC_RASTREAMENTO_SERVICE_URL: http://rastreamento:8000
     environment:
-      NEXT_PUBLIC_FRETE_SERVICE_URL: http://frete:8000
-      NEXT_PUBLIC_PAGAMENTO_SERVICE_URL: http://pagamento:8000
-      NEXT_PUBLIC_SUPORTE_SERVICE_URL: http://suporte:8000
-      NEXT_PUBLIC_AUTENTICACAO_SERVICE_URL: http://autenticacao:8000
-      NEXT_PUBLIC_NOTIFICACAO_SERVICE_URL: ws://notificacao:8004
-      NEXT_PUBLIC_RASTREAMENTO_SERVICE_URL: http://rastreamento:8000
+      NEXT_PUBLIC_FRETE_SERVICE_URL: http://localhost:8000
+      NEXT_PUBLIC_PAGAMENTO_SERVICE_URL: http://localhost:8001
+      NEXT_PUBLIC_SUPORTE_SERVICE_URL: http://localhost:8002
+      NEXT_PUBLIC_AUTENTICACAO_SERVICE_URL: http://localhost:8003
+      NEXT_PUBLIC_NOTIFICACAO_SERVICE_URL: ws://localhost:8004
+      NEXT_PUBLIC_RASTREAMENTO_SERVICE_URL: http://localhost:8005
     depends_on:
       - frete
       - pagamento

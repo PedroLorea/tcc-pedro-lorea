@@ -18,6 +18,7 @@ class MessagePublisher:
             params = pika.ConnectionParameters(
                 host=self.host,
                 port=self.port,
+                heartbeat=600,
                 credentials=self.credentials
             )
             self.connection = pika.BlockingConnection(params)

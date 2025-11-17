@@ -1,5 +1,5 @@
-PAGAMENTO_SERVICE_URL = "http://127.0.0.1:8001/pagamentos/criar/"
-RASTREAMENTO_SERVICE_URL = "http://127.0.0.1:8005/rastreamento/rastrear/"
+PAGAMENTO_SERVICE_URL = "http://pagamento:8000/pagamentos/criar/"
+RASTREAMENTO_SERVICE_URL = "http://rastreamento:8000/rastreamento/rastrear/"
 
 TIPO_PRODUTO_CHILENO = "CHILENO"
 TIPO_PRODUTO_TOLUENO = "TOLUENO"

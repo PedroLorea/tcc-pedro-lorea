@@ -16,7 +16,7 @@ class MessageConsumer:
         while attempt < retries:
             try:
                 self.connection = pika.BlockingConnection(
-                    pika.ConnectionParameters(host=self.host, port=self.port, credentials=self.credentials)
+                    pika.ConnectionParameters(host=self.host, port=self.port, heartbeat=600, credentials=self.credentials)
                 )
                 self.channel = self.connection.channel()
                 print("[✔] Conectado ao RabbitMQ")

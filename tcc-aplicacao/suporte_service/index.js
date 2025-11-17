@@ -47,4 +47,4 @@ app.post('/suporte/perguntar/', (req, res) => {
 });
 
 // Start server
-app.listen(8002, () => console.log('Serviço de suporte rodando na porta 8002'));
+app.listen(8000, () => console.log('Serviço de suporte rodando na porta 8002'));

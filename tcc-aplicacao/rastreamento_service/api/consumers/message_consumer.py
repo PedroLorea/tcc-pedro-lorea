@@ -9,7 +9,7 @@ class MessageConsumer:
         self.credentials = pika.PlainCredentials(username, password)
         
         self.connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host=self.host, port=self.port, credentials=self.credentials)
+            pika.ConnectionParameters(host=self.host, port=self.port, heartbeat=600, credentials=self.credentials)
         )
         self.channel = self.connection.channel()
         self.subscriptions = []

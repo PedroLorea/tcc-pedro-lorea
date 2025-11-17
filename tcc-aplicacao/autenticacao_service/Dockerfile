@@ -13,4 +13,4 @@ COPY . .
 EXPOSE 8003
 
 # Roda migrate e depois start do Django
-CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8003"]
+CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]

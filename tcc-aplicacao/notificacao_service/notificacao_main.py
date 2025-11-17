@@ -33,7 +33,7 @@ main_loop = None
 # HANDLER WEBSOCKET
 # ========================
 async def handler(websocket):
-    path = websocket.path
+    path = websocket.request.path
     query = parse_qs(urlparse(path).query)
 
     token = query.get("token", [None])[0]
@@ -116,7 +116,7 @@ def start_rabbitmq_consumer():
         while True:
             try:
                 print("[RabbitMQ] Conectando em", RABBITMQ_HOST)
-                connection = BlockingConnection(ConnectionParameters(host=RABBITMQ_HOST))
+                connection = BlockingConnection(ConnectionParameters(host=RABBITMQ_HOST, heartbeat=600,))
                 channel = connection.channel()
 
                 channel.exchange_declare(exchange="notificacoes", exchange_type="topic", durable=True)
