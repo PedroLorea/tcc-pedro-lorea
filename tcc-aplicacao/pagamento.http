@@ -1,0 +1,16 @@
+### GET ALL pagamentos
+GET http://127.0.0.1:8001/pagamentos/listar/
+Accept: application/json
+
+
+### CRIAR PAGAMENTO
+POST http://127.0.0.1:8001/pagamentos/criar/
+Content-Type: application/json
+
+{
+  "frete_uuid": "a5d819ed-401b-44f0-9b25-7e9f67862258",
+  "preco": 2323
+}
+
+### PAGAR
+POST http://127.0.0.1:8001/pagamentos/pagar/d502a9e0-bb5c-4bcb-9f41-b6a9595ed3cd/

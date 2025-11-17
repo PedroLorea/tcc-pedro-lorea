@@ -1,0 +1,13 @@
+### CRIAR MOTORISTA
+POST http://127.0.0.1:8000/motorista/criar/
+Content-Type: application/json
+
+{
+  "email": "joao.silva@example.com",
+  "cpf": "123.456.789-00",
+  "nome": "João Silva",
+  "telefone": "(11) 98765-4321",
+  "cnh": "AB1234567",
+  "data_ultima_viagem": "2025-11-01T12:00:00",
+  "status": "DISPONIVEL"
+}

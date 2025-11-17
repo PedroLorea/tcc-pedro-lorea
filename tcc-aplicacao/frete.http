@@ -1,0 +1,52 @@
+### GET ALL fretes
+GET http://127.0.0.1:8000/fretes/listar/
+Accept: application/json
+
+### GET frete por uuid
+GET http://127.0.0.1:8000/fretes/detalhes/a5d819ed-401b-44f0-9b25-7e9f67862258/
+Accept: application/json
+
+### SOLICITAR FRETE
+POST http://127.0.0.1:8000/fretes/solicitar/
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6InBlZHJvIiwicm9sZSI6InVzdWFyaW8iLCJwZXJtaXNzb2VzIjpbImZyZXRlOmxlciIsImZyZXRlOmNyaWFyIl0sImV4cCI6MTc2MjE2ODA0Mn0.1vz47hDBzgHFDdh_6ZDShJvJjhqyjf4IFzuHFtHeMPo
+Content-Type: application/json
+
+{
+    "tipo_produto": "CHILENO",
+    "quantidade": 10,
+    "localizacao_coleta": {
+        "cep": "12345-678",
+        "cidade": "São Paulo",
+        "estado": "SP",
+        "rua": "Rua Exemplo",
+        "numero": "100",
+        "complemento": "Bloco A"
+    },
+    "localizacao_entrega": {
+        "cep": "87654-321",
+        "cidade": "Rio de Janeiro",
+        "estado": "RJ",
+        "rua": "Avenida Teste",
+        "numero": "200",
+        "complemento": null
+    },
+    "data_coleta": "2025-09-28T14:00:00Z",
+    "data_entrega": "2025-09-29T18:00:00Z",
+    "preco": 1500.75
+}
+
+### DECISÃO FRETE
+PUT http://127.0.0.1:8000/fretes/decisao/a5d819ed-401b-44f0-9b25-7e9f67862258/
+Content-Type: application/json
+
+{
+    "decisao": "false"
+}
+
+### ORCAMENTO FRETE
+PUT http://127.0.0.1:8000/fretes/orcamento/d1813f39-0f5d-4123-8e2d-f6a98c5945e7/
+Content-Type: application/json
+
+{
+    "preco": 123456
+}

@@ -1,0 +1,27 @@
+### Registrar usuário
+POST http://127.0.0.1:8003/autenticacao/registrar/
+Content-Type: application/json
+
+{
+    "username": "pedro12",
+    "email": "pedro@email.com",
+    "senha": "123456"
+}
+
+### Entrar (login)
+POST http://127.0.0.1:8003/autenticacao/entrar/
+Content-Type: application/json
+
+{
+    "username": "pedro",
+    "senha": "123456"
+}
+
+### Entrar com usuário inexistente (erro esperado)
+POST http://127.0.0.1:8003/autenticacao/entrar/
+Content-Type: application/json
+
+{
+    "username": "naoexiste",
+    "senha": "123456"
+}

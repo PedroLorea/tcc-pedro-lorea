@@ -1,0 +1,25 @@
+### CREATE CAMINHÃO
+POST http://127.0.0.1:8000/caminhao/criar/
+Content-Type: application/json
+
+{
+  "placa": "ABC-1234",
+  "marca": "Volvo",
+  "modelo": "FH 500",
+  "ano_fabricacao": "2020-05-10T00:00:00",
+  "peso": 8000,
+  "altura": 4.0,
+  "capacidade": 20000.0,
+  "material_reservatorio": "Aço",
+  "data_ultima_viagem": null,
+  "status": "DISPONIVEL"
+}
+
+# "localizacao_atual": {
+#     "cep": "12345-678",
+#     "cidade": "São Paulo",
+#     "estado": "SP",
+#     "rua": "Rua Exemplo",
+#     "numero": 100,
+#     "complemento": "Apto 101"
+#  },
