@@ -62,8 +62,6 @@ services:
       - "8003:8000"
     environment:
       RABBITMQ_HOST: rabbitmq
-    volumes:
-      - ./tcc-aplicacao/autenticacao_service:/app
     depends_on:
       - rabbitmq
 

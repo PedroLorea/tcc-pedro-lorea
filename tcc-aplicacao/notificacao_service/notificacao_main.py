@@ -29,12 +29,10 @@ RABBITMQ_HOST = os.getenv("RABBITMQ_HOST", "rabbitmq")
 connected_clients: Dict[str, List[websockets.WebSocketServerProtocol]] = {}
 main_loop = None
 
-
 # ========================
 # HANDLER WEBSOCKET
 # ========================
 async def handler(websocket):
-    # websockets 12+
     path = websocket.path
     query = parse_qs(urlparse(path).query)
 
@@ -63,13 +61,11 @@ async def handler(websocket):
     except:
         pass
     finally:
-        # remove ao desconectar
         if user_id in connected_clients and websocket in connected_clients[user_id]:
             connected_clients[user_id].remove(websocket)
             if not connected_clients[user_id]:
                 del connected_clients[user_id]
         print(f"[Disconnected] user {user_id}")
-
 
 # ========================
 # WEBSOCKET SERVER
@@ -77,8 +73,7 @@ async def handler(websocket):
 async def start_websocket_server():
     print(f"[WebSocket] Rodando em {WS_HOST}:{WS_PORT}")
     async with websockets.serve(handler, WS_HOST, WS_PORT):
-        await asyncio.Future()
-
+        await asyncio.Future()  # espera indefinidamente
 
 # ========================
 # CALLBACK DO RABBITMQ
@@ -111,30 +106,31 @@ def callback(ch, method, properties, body):
     except Exception as e:
         print("[Error] callback:", e)
 
-
 # ========================
-# RABBITMQ CONSUMER
+# RABBITMQ CONSUMER COM RETRY
 # ========================
 def start_rabbitmq_consumer():
+    RETRY_DELAY = 5  # segundos
 
     def run():
-        print("[RabbitMQ] Conectando em", RABBITMQ_HOST)
+        while True:
+            try:
+                print("[RabbitMQ] Conectando em", RABBITMQ_HOST)
+                connection = BlockingConnection(ConnectionParameters(host=RABBITMQ_HOST))
+                channel = connection.channel()
 
-        connection = BlockingConnection(
-            ConnectionParameters(host=RABBITMQ_HOST)
-        )
-        channel = connection.channel()
+                channel.exchange_declare(exchange="notificacoes", exchange_type="topic", durable=True)
+                channel.queue_declare(queue="notificacoes", durable=True)
+                channel.queue_bind(exchange="notificacoes", queue="notificacoes", routing_key="notifica.plataforma")
 
-        channel.exchange_declare(exchange="notificacoes", exchange_type="topic", durable=True)
-        channel.queue_declare(queue="notificacoes", durable=True)
-        channel.queue_bind(exchange="notificacoes", queue="notificacoes", routing_key="notifica.plataforma")
-
-        print("[RabbitMQ] Consumindo...")
-        channel.basic_consume(queue="notificacoes", on_message_callback=callback, auto_ack=True)
-        channel.start_consuming()
+                print("[RabbitMQ] Consumindo...")
+                channel.basic_consume(queue="notificacoes", on_message_callback=callback, auto_ack=True)
+                channel.start_consuming()
+            except Exception as e:
+                print(f"[RabbitMQ] Erro na conexão: {e}. Tentando reconectar em {RETRY_DELAY}s...")
+                time.sleep(RETRY_DELAY)
 
     threading.Thread(target=run, daemon=True).start()
-
 
 # ========================
 # MAIN
@@ -159,7 +155,6 @@ def main():
     asyncio.set_event_loop(main_loop)
 
     main_loop.run_until_complete(start_websocket_server())
-
 
 if __name__ == "__main__":
     main()

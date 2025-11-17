@@ -5,7 +5,7 @@ import json
 class MessagePublisher:
     """Centraliza envio de mensagens RabbitMQ."""
 
-    def __init__(self, host='localhost', port=5672, username='guest', password='guest', exchange: str = None):
+    def __init__(self, host='rabbitmq', port=5672, username='guest', password='guest', exchange: str = None):
         self.host = host
         self.port = port
         self.credentials = pika.PlainCredentials(username, password)

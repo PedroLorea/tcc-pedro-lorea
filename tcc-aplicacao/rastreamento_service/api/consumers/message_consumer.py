@@ -3,7 +3,7 @@ import pika
 import json
 
 class MessageConsumer:
-    def __init__(self, host='localhost', port=5672, username='guest', password='guest'):
+    def __init__(self, host='rabbitmq', port=5672, username='guest', password='guest'):
         self.host = host
         self.port = port
         self.credentials = pika.PlainCredentials(username, password)

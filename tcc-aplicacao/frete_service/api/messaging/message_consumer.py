@@ -1,18 +1,30 @@
 # common/message_bus.py
+import time
 import pika
-import json
 
 class MessageConsumer:
-    def __init__(self, host='localhost', port=5672, username='guest', password='guest'):
+    def __init__(self, host='rabbitmq', port=5672, username='guest', password='guest', retries=5, delay=5):
         self.host = host
         self.port = port
         self.credentials = pika.PlainCredentials(username, password)
-        
-        self.connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host=self.host, port=self.port, credentials=self.credentials)
-        )
-        self.channel = self.connection.channel()
         self.subscriptions = []
+
+        attempt = 0
+        while attempt < retries:
+            try:
+                self.connection = pika.BlockingConnection(
+                    pika.ConnectionParameters(host=self.host, port=self.port, credentials=self.credentials)
+                )
+                self.channel = self.connection.channel()
+                print("[✔] Conectado ao RabbitMQ")
+                break
+            except pika.exceptions.AMQPConnectionError as e:
+                attempt += 1
+                print(f"[❌] Falha ao conectar, tentativa {attempt}/{retries}... erro: {e}")
+                time.sleep(delay)
+        else:
+            raise ConnectionError(f"Não foi possível conectar ao RabbitMQ após {retries} tentativas")
+
 
     def subscribe(self, queue, routing_key):
         """

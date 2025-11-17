@@ -13,4 +13,4 @@ Content-Type: application/json
 }
 
 ### PAGAR
-POST http://127.0.0.1:8001/pagamentos/pagar/d502a9e0-bb5c-4bcb-9f41-b6a9595ed3cd/
+POST http://127.0.0.1:8001/pagamentos/pagar/264e6050-1cc9-47f5-9bf4-5972381962fe/
