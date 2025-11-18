@@ -128,6 +128,9 @@ class FreteService:
                 print(f"[Erro] Falha ao chamar serviço de rastreamento: {e}")
 
         else:
+            frete.motorista.status = UNIDADE_OPERACIONAL_STATUS_DISPONIVEL
+            frete.caminhao.status = UNIDADE_OPERACIONAL_STATUS_DISPONIVEL
+
             self.message_publisher.publish(
                 routing_key="notifica.plataforma",
                 body={

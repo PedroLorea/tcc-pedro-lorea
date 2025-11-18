@@ -1,4 +1,67 @@
 services:
+  # ==========================
+  # BANCO DO FRETE
+  # ==========================
+  postgres_frete:
+    image: postgres:15-alpine
+    container_name: postgres_frete
+    restart: always
+    environment:
+      POSTGRES_USER: frete_user
+      POSTGRES_PASSWORD: frete123
+      POSTGRES_DB: frete_db
+    ports:
+      - "5432:5432"           
+    volumes:
+      - postgres_frete_data:/var/lib/postgresql/data
+
+  # ==========================
+  # BANCO DO PAGAMENTO
+  # ==========================
+  postgres_pagamento:
+    image: postgres:15-alpine
+    container_name: postgres_pagamento
+    restart: always
+    environment:
+      POSTGRES_USER: pagamento_user
+      POSTGRES_PASSWORD: pagamento123
+      POSTGRES_DB: pagamento_db
+    ports:
+      - "5433:5432"           
+    volumes:
+      - postgres_pagamento_data:/var/lib/postgresql/data
+
+  # ==========================
+  # BANCO DA AUTENTICAÇÃO
+  # ==========================
+  postgres_autenticacao:
+    image: postgres:15-alpine
+    container_name: postgres_autenticacao
+    restart: always
+    environment:
+      POSTGRES_USER: auth_user
+      POSTGRES_PASSWORD: auth123
+      POSTGRES_DB: auth_db
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_autenticacao_data:/var/lib/postgresql/data
+
+  # ==========================
+  # BANCO DO RASTREAMENTO
+  # ==========================
+  postgres_rastreamento:
+    image: postgres:15-alpine
+    container_name: postgres_rastreamento
+    restart: always
+    environment:
+      POSTGRES_USER: rastreamento_user
+      POSTGRES_PASSWORD: rastreamento123
+      POSTGRES_DB: rastreamento_db
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_rastreamento_data:/var/lib/postgresql/data
 
   # ==========================
   # RABBITMQ
@@ -23,9 +86,11 @@ services:
       - "8000:8000"
     environment:
       RABBITMQ_HOST: rabbitmq
+      DATABASE_URL: postgres://frete_user:frete123@postgres_frete:5432/frete_db
     volumes:
       - ./tcc-aplicacao/frete_service:/app
     depends_on:
+      - postgres_frete
       - rabbitmq
 
   # ==========================
@@ -38,19 +103,12 @@ services:
       - "8001:8000"
     environment:
       RABBITMQ_HOST: rabbitmq
+      DATABASE_URL: postgres://pagamento_user:pagamento123@postgres_pagamento:5432/pagamento_db
     volumes:
       - ./tcc-aplicacao/pagamento_service:/app
     depends_on:
+      - postgres_pagamento
       - rabbitmq
-
-  # ==========================
-  # SUPORTE (Node)
-  # ==========================
-  suporte:
-    build: ./tcc-aplicacao/suporte_service
-    container_name: suporte_service
-    ports:
-      - "8002:8000"
 
   # ==========================
   # AUTENTICAÇÃO (Django)
@@ -62,11 +120,41 @@ services:
       - "8003:8000"
     environment:
       RABBITMQ_HOST: rabbitmq
+      DATABASE_URL: postgres://auth_user:auth123@postgres_autenticacao:5432/auth_db
+    volumes:
+      - ./tcc-aplicacao/autenticacao_service:/app
     depends_on:
+      - postgres_autenticacao
       - rabbitmq
 
   # ==========================
-  # NOTIFICAÇÃO (Python WebSocket)
+  # RASTREAMENTO (Django)
+  # ==========================
+  rastreamento:
+    build: ./tcc-aplicacao/rastreamento_service
+    container_name: rastreamento_service
+    ports:
+      - "8005:8000"
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      DATABASE_URL: postgres://rastreamento_user:rastreamento123@postgres_rastreamento:5432/rastreamento_db
+    volumes:
+      - ./tcc-aplicacao/rastreamento_service:/app
+    depends_on:
+      - postgres_rastreamento
+      - rabbitmq
+
+  # ==========================
+  # SUPORTE (Node.js)
+  # ==========================
+  suporte:
+    build: ./tcc-aplicacao/suporte_service
+    container_name: suporte_service
+    ports:
+      - "8002:8000"
+
+  # ==========================
+  # NOTIFICAÇÃO (WebSocket)
   # ==========================
   notificacao:
     build: ./tcc-aplicacao/notificacao_service
@@ -81,21 +169,6 @@ services:
       - rabbitmq
 
   # ==========================
-  # RASTREAMENTO (Django)
-  # ==========================
-  rastreamento:
-    build: ./tcc-aplicacao/rastreamento_service
-    container_name: rastreamento_service
-    ports:
-      - "8005:8000"
-    environment:
-      RABBITMQ_HOST: rabbitmq
-    volumes:
-      - ./tcc-aplicacao/rastreamento_service:/app
-    depends_on:
-      - rabbitmq
-
-  # ==========================
   # FRONTEND (Next.js)
   # ==========================
   frontend:
@@ -103,13 +176,6 @@ services:
     container_name: tcc_frontend
     ports:
       - "3000:3000"
-    # environment:
-    #   NEXT_PUBLIC_FRETE_SERVICE_URL: http://frete:8000
-    #   NEXT_PUBLIC_PAGAMENTO_SERVICE_URL: http://pagamento:8000
-    #   NEXT_PUBLIC_SUPORTE_SERVICE_URL: http://suporte:8000
-    #   NEXT_PUBLIC_AUTENTICACAO_SERVICE_URL: http://autenticacao:8000
-      # NEXT_PUBLIC_NOTIFICACAO_SERVICE_URL: ws://notificacao:8004
-      # NEXT_PUBLIC_RASTREAMENTO_SERVICE_URL: http://rastreamento:8000
     environment:
       NEXT_PUBLIC_FRETE_SERVICE_URL: http://localhost:8000
       NEXT_PUBLIC_PAGAMENTO_SERVICE_URL: http://localhost:8001
@@ -120,7 +186,15 @@ services:
     depends_on:
       - frete
       - pagamento
-      - suporte
       - autenticacao
-      - notificacao
       - rastreamento
+      - notificacao
+
+# ==========================
+# VOLUMES
+# ==========================
+volumes:
+  postgres_frete_data:
+  postgres_pagamento_data:
+  postgres_autenticacao_data:
+  postgres_rastreamento_data:

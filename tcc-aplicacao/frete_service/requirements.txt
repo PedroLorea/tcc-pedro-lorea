@@ -14,3 +14,5 @@ annotated-types
 sqlparse
 tzdata
 websockets
+psycopg[binary]
+dj-database-url

@@ -34,7 +34,7 @@ export default function LoginPage() {
 
 			const jwt = response.token;
 			localStorage.setItem("jwt", jwt);
-			document.cookie = `jwt=${jwt}; path=/; max-age=${60 * 60 * 24 * 7}; secure; samesite=lax`;
+			document.cookie = `jwt=${jwt}; path=/; max-age=${60 * 60 * 24 * 7}; samesite=lax`;
 
 
 			const payloadBase64 = jwt.split(".")[1];
