@@ -127,15 +127,6 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -192,8 +183,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Arquivos de ambiente
-.env
 
 # Pastas de build
 dist/
