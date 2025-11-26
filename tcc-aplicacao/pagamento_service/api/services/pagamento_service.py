@@ -64,7 +64,7 @@ class PagamentoService:
             body={
                 "user_id": user_id,
                 "message": "O cliente pagou o frete.",
-                "title": "TO: TRANSPORTADORA",
+                "title": f"TO: TRANSPORTADORA — {str(pagamento.frete_uuid)}"
             }
         )
 

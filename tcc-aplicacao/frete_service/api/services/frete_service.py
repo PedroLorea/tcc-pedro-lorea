@@ -68,7 +68,7 @@ class FreteService:
                 "user_id": str(user_id),
                 "frete_uuid": str(frete.uuid),
                 "message": "O cliente solicitou um frete e aguarda o orçamento.",
-                "title": "TO: TRANSPORTADORA"
+                "title": f"TO: TRANSPORTADORA — {frete.uuid}"
             }
         )
 
@@ -105,7 +105,7 @@ class FreteService:
                     "user_id": str(user_id),
                     "frete_uuid": str(frete.uuid),
                     "message": "O pedido foi coletado.",
-                    "title": "TO: CLIENTE"
+                    "title": f"TO: CLIENTE — {str(frete.uuid)}"
                 }
             )
 
@@ -137,7 +137,7 @@ class FreteService:
                     "user_id": str(user_id),
                     "frete_uuid": str(frete.uuid),
                     "message": "O pedido foi entregue.",
-                    "title": "TO: CLIENTE"
+                    "title": f"TO: CLIENTE — {str(frete.uuid)}"
                 }
             )
 
@@ -212,7 +212,7 @@ class FreteService:
                 "user_id": str(user_id),
                 "frete_uuid": str(frete.uuid),
                 "message": "A transportadora gerou o orçamento para o frete.",
-                "title": "TO: CLIENTE"
+                "title": f"TO: CLIENTE — {str(frete.uuid)}"
             }
         )
 
@@ -252,7 +252,7 @@ class FreteService:
                     f"Pegue o caminhão: {frete.caminhao.placa} "
                     f"e dirija até o local de coleta: {frete.localizacao_coleta.cidade}."
                 ),
-                "title": "TO: MOTORISTA"
+                "title": f"TO: MOTORISTA — {str(frete.uuid)}"
             }
         )
 
