@@ -29,6 +29,7 @@ const prioridadeStatus: Record<string, number> = {
 export default function Dashboard() {
   const [modalTipo, setModalTipo] = useState<null | "solicitar" | "orcamento" | "decisao" | "pagamento" | "confirmarColeta" | "confirmarEntrega" | "motorista" | "caminhao">(null);
   const [freteSelecionado, setFreteSelecionado] = useState<any>(null);
+  const [codigoColeta, setCodigoColeta] = useState("");
 
   const abrirModal = async (tipo: typeof modalTipo, frete?: any) => {
     setModalTipo(tipo);
@@ -237,7 +238,7 @@ export default function Dashboard() {
 
 
   // COLETA E ENTREGA
-  async function atualizarStatusFrete(novoStatus: string) {
+  async function atualizarStatusFrete(novoStatus: string, codigo?: string) {
     if (!freteSelecionado) {
       alert("❌ Nenhum frete selecionado.");
       return;
@@ -248,7 +249,7 @@ export default function Dashboard() {
         "PUT",
         FRETE_SERVICE_API.ALTERA_STATUS,
         freteSelecionado.uuid,
-        { status: novoStatus }
+        { status: novoStatus, codigo: codigo }
       );
 
       alert("✅ Status atualizado com sucesso!");
@@ -608,29 +609,41 @@ export default function Dashboard() {
 
 
       {/* Modal Confirmar Coleta */}
-      <Modal
-        isOpen={modalTipo === "confirmarColeta"}
-        onClose={fecharModal}
-        title="Confirmação de Coleta"
-      >
-        <p className="text-gray-700 mb-4 text-center">
-          O pedido foi <strong>coletado</strong>?
-        </p>
-        <div className="flex justify-center gap-3">
-          <button
-            onClick={() => atualizarStatusFrete(FRETE_STATUS_EM_ANDAMENTO)}
-            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-          >
-            Sim
-          </button>
-          <button
-            onClick={fecharModal}
-            className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400"
-          >
-            Não
-          </button>
-        </div>
-      </Modal>
+<Modal
+  isOpen={modalTipo === "confirmarColeta"}
+  onClose={fecharModal}
+  title="Confirmação de Coleta"
+>
+  <p className="text-gray-700 mb-4 text-center">
+    O pedido foi <strong>coletado</strong>?
+  </p>
+
+  {/* Input do código */}
+  <input
+    type="text"
+    value={codigoColeta}
+    onChange={(e) => setCodigoColeta(e.target.value)}
+    placeholder="Digite o código de coleta"
+    className="w-full px-3 py-2 border rounded-lg mb-4"
+  />
+
+  <div className="flex justify-center gap-3">
+    <button
+      onClick={() => atualizarStatusFrete(FRETE_STATUS_EM_ANDAMENTO, codigoColeta)}
+      className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+    >
+      Sim
+    </button>
+
+    <button
+      onClick={fecharModal}
+      className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400"
+    >
+      Não
+    </button>
+  </div>
+</Modal>
+
 
       {/* Modal Confirmar Entrega */}
       <Modal

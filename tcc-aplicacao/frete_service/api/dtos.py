@@ -101,6 +101,7 @@ class FreteDTO(BaseModel):
 
 class FreteStatusDTO(BaseModel):
     status: FreteStatusEnum
+    codigo: Optional[str] = None
 
 class FreteDecisaoDTO(BaseModel):
     decisao: bool

@@ -18,3 +18,7 @@ class FreteNotFoundError(FreteError):
 class PagamentoServiceError(FreteError):
     status_code = 502
     message = "Erro no serviço de pagamento."
+
+class CodigoInvalidoServiceError(FreteError):
+    status_code = 404
+    message = "Código Inválido"

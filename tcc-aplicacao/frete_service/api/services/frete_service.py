@@ -1,6 +1,6 @@
 from typing import List, Tuple
-from api.base.exceptions import FreteNotFoundError, PagamentoServiceError, UnidadeOperacionalIndisponivelError
-from api.constants import FRETE_STATUS_AGUARDANDO_COLETA, FRETE_STATUS_AGUARDANDO_DECISAO, FRETE_STATUS_AGUARDANDO_PAGAMENTO, FRETE_STATUS_EM_ANDAMENTO, FRETE_STATUS_FINALIZADO, PAGAMENTO_SERVICE_URL, RASTREAMENTO_SERVICE_URL, UNIDADE_OPERACIONAL_STATUS_EM_TRANSPORTE, UNIDADE_OPERACIONAL_STATUS_RESERVADO
+from api.base.exceptions import CodigoInvalidoServiceError, FreteNotFoundError, PagamentoServiceError, UnidadeOperacionalIndisponivelError
+from api.constants import FRETE_STATUS_AGUARDANDO_COLETA, FRETE_STATUS_AGUARDANDO_DECISAO, FRETE_STATUS_AGUARDANDO_PAGAMENTO, FRETE_STATUS_EM_ANDAMENTO, FRETE_STATUS_FINALIZADO, PAGAMENTO_SERVICE_URL, RASTREAMENTO_SERVICE_URL, UNIDADE_OPERACIONAL_STATUS_DISPONIVEL, UNIDADE_OPERACIONAL_STATUS_EM_TRANSPORTE, UNIDADE_OPERACIONAL_STATUS_RESERVADO
 from api.dtos import FreteDTO, FreteDecisaoDTO, FreteOrcamentoDTO, FreteStatusDTO
 from api.models import Caminhao, Frete, Motorista
 from api.repositories.caminhao_repository import CaminhaoRepository
@@ -99,6 +99,9 @@ class FreteService:
         frete.save()
 
         if status_dto.status == FRETE_STATUS_EM_ANDAMENTO:
+
+            if status_dto.codigo != frete.codigo_entrega: raise CodigoInvalidoServiceError()
+
             self.message_publisher.publish(
                 routing_key="notifica.plataforma",
                 body={

@@ -68,5 +68,15 @@ class PagamentoService:
             }
         )
 
+        self.message_publisher.publish(
+            exchange="notificacoes",  # 🔹 publica no exchange de notificações
+            routing_key="notifica.plataforma",
+            body={
+                "user_id": user_id,
+                "message": f"O código que deve ser entregue ao motorista no momento da coleta é: {str(codigo_entrega)}.",
+                "title": f"TO: CLIENTE — {str(pagamento.frete_uuid)}"
+            }
+        )
+
 
         return pagamento
