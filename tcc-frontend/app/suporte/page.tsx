@@ -53,7 +53,7 @@ export default function SuportePage() {
         <div className="w-full max-w-2xl space-y-3 pb-24">
           {messages.length === 0 ? (
             <p className="text-gray-500 text-center mt-10">
-              Inicie uma conversa com o suporte 👇
+              Tire suas dúvidas através do chat 👇
             </p>
           ) : (
             messages.map((msg, index) => (

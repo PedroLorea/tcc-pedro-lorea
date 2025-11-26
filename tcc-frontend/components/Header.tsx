@@ -66,7 +66,7 @@ export default function Header({ initialAuth }: { initialAuth: boolean }) {
                     className="flex items-center gap-2 hover:underline hover:text-gray-200 transition cursor-pointer"
                 >
                     <MessageSquare size={18} />
-                    Suporte
+                    Faq
                 </a>
 
                 {/* Condicional: se logado → Dashboard/Sair */}
