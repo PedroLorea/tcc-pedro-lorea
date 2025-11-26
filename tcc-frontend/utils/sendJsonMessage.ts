@@ -18,9 +18,23 @@ export async function sendJsonMessage(
     body: body ? JSON.stringify(body) : undefined,
   });
 
+  // Se der erro → captura o STATUS e o JSON também
   if (!res.ok) {
-    throw new Error(`Erro na requisição: ${res.statusText}`);
+    let data = null;
+
+    try {
+      data = await res.json();
+    } catch (e) {
+      // corpo vazio → deixa null
+    }
+
+    throw {
+      status: res.status,
+      statusText: res.statusText,
+      data,
+    };
   }
 
+  // Em sucesso, retorna o JSON
   return res.json();
 }

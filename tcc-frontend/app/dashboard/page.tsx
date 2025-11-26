@@ -127,11 +127,19 @@ export default function Dashboard() {
       const fretes = await sendJsonMessage("GET", FRETE_SERVICE_API.LISTAR_FRETES);
       setTodosFretes(fretes);
       setFretesAtivos(fretes.filter((f: FreteDTO) => f.status !== FRETE_STATUS_FINALIZADO));
-    } catch (error) {
+
+    } catch (error: any) {
       console.error(error);
+
+      if (error.status === 409) {
+        alert(error.data?.detail || "⚠️ Nenhuma unidade operacional disponível.");
+        return;
+      }
+
       alert("❌ Erro ao solicitar frete. Tente novamente.");
     }
   }
+
 
 
   // SET ORÇAMENTO FRETE
