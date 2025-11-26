@@ -5,7 +5,7 @@
   },
   {
     "pergunta": "Como faço para agendar um frete?",
-    "resposta": "Você pode agendar seu frete entrando em contato com nossa central de atendimento ou através do formulário no nosso site."
+    "resposta": "Você pode agendar seu frete criando uma conta no site e clicar no botão (+ solicitar frete)."
   },
   {
     "pergunta": "Quais são as medidas de segurança durante o frete?",
@@ -21,7 +21,7 @@
   },
   {
     "pergunta": "Como rastrear meu caminhão?",
-    "resposta": "Todos os caminhões possuem rastreamento por GPS, e você recebe um link para acompanhar a rota e o status da entrega em tempo real."
+    "resposta": "Todos os caminhões possuem rastreamento por GPS, basta entrar nos detalhes do caminhão e clicar no botão rastrear."
   },
   {
     "pergunta": "Quais documentos são necessários para o frete?",
@@ -33,6 +33,6 @@
   },
   {
     "pergunta": "Vocês atendem todo o território nacional?",
-    "resposta": "Sim, realizamos frete de líquidos inflamáveis em todo o território nacional, sempre respeitando as normas de frete de produtos perigosos de cada região."
+    "resposta": "Não, realizamos frete de líquidos inflamáveis em todo o território nacional menos o estado do nordeste, sempre respeitando as normas de frete de produtos perigosos de cada região."
   }
 ]
