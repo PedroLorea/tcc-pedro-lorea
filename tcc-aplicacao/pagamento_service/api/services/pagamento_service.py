@@ -47,7 +47,7 @@ class PagamentoService:
         pagamento.save()
 
         self.message_publisher.publish(
-            exchange="pagamentos",  # 🔹 publica no exchange de pagamentos
+            exchange="pagamentos",  
             routing_key="pagamento.pago",
             body={
                 "user_id": user_id,
@@ -59,7 +59,7 @@ class PagamentoService:
         print("user_id: ", user_id)
 
         self.message_publisher.publish(
-            exchange="notificacoes",  # 🔹 publica no exchange de notificações
+            exchange="notificacoes",  
             routing_key="notifica.plataforma",
             body={
                 "user_id": user_id,
@@ -69,7 +69,7 @@ class PagamentoService:
         )
 
         self.message_publisher.publish(
-            exchange="notificacoes",  # 🔹 publica no exchange de notificações
+            exchange="notificacoes",  
             routing_key="notifica.plataforma",
             body={
                 "user_id": user_id,
