@@ -24,7 +24,7 @@ export default function FreteDetalhes() {
 
         setFrete(frete);
       } catch (err) {
-        console.error(err);
+        console.log(err);
       }
     }
 
@@ -73,7 +73,7 @@ export default function FreteDetalhes() {
       setPosicoes((prev) => [...prev, novaPosicao]);
 
     } catch (err) {
-      console.error("Erro ao rastrear:", err);
+      console.log("Erro ao rastrear:", err);
       alert("Erro ao obter rastreamento.");
     }
   };

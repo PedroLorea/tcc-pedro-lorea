@@ -77,7 +77,7 @@ export function NotificationProvider({ children }) {
             return atualizadas;
           });
         } catch (err) {
-          console.error("Erro ao processar mensagem WebSocket", err);
+          console.log("Erro ao processar mensagem WebSocket", err);
         }
       };
 
@@ -92,12 +92,12 @@ export function NotificationProvider({ children }) {
 
           reconnectTimeoutRef.current = setTimeout(connect, delay);
         } else {
-          console.error("[WebSocket] Falha permanente – máximo de tentativas atingido");
+          console.log("[WebSocket] Falha permanente – máximo de tentativas atingido");
         }
       };
 
       socket.onerror = (err) => {
-        console.error("[WebSocket] Erro:", err);
+        console.log("[WebSocket] Erro:", err);
         socket.close();
       };
     };

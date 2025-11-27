@@ -51,7 +51,7 @@ export default function Dashboard() {
           console.warn("⚠️ Nenhum pagamento encontrado para este frete.");
         }
       } catch (error) {
-        console.error("❌ Erro ao buscar detalhes do pagamento:", error);
+        console.log("❌ Erro ao buscar detalhes do pagamento:", error);
         alert("Erro ao buscar detalhes do pagamento.");
       }
     }
@@ -74,7 +74,7 @@ export default function Dashboard() {
         setFretesAtivos(ativos);
         setTodosFretes(fretes);
       } catch (err) {
-        console.error(err);
+        console.log(err);
       }
     }
 
@@ -130,7 +130,7 @@ export default function Dashboard() {
       setFretesAtivos(fretes.filter((f: FreteDTO) => f.status !== FRETE_STATUS_FINALIZADO));
 
     } catch (error: any) {
-      console.error(error);
+      console.log(error);
 
       if (error.status === 409) {
         alert(error.data?.detail || "⚠️ Nenhuma unidade operacional disponível.");
@@ -169,7 +169,7 @@ export default function Dashboard() {
       setTodosFretes(fretes);
       setFretesAtivos(fretes.filter((f: FreteDTO) => f.status !== FRETE_STATUS_FINALIZADO));
     } catch (error) {
-      console.error(error);
+      console.log(error);
       alert("❌ Erro ao gerar orçamento. Tente novamente.");
     }
   }
@@ -201,7 +201,7 @@ export default function Dashboard() {
       setTodosFretes(fretes);
       setFretesAtivos(fretes.filter((f: FreteDTO) => f.status !== FRETE_STATUS_FINALIZADO));
     } catch (error) {
-      console.error(error);
+      console.log(error);
       alert("❌ Erro ao enviar decisão. Tente novamente.");
     }
   }
@@ -231,7 +231,7 @@ export default function Dashboard() {
       setTodosFretes(fretes);
       setFretesAtivos(fretes.filter((f: FreteDTO) => f.status !== FRETE_STATUS_FINALIZADO));
     } catch (error) {
-      console.error(error);
+      console.log(error);
       alert("❌ Erro ao realizar pagamento. Tente novamente.");
     }
   }
@@ -259,7 +259,7 @@ export default function Dashboard() {
       setTodosFretes(fretes);
       setFretesAtivos(fretes.filter((f: FreteDTO) => f.status !== FRETE_STATUS_FINALIZADO));
     } catch (error) {
-      console.error(error);
+      console.log(error);
       alert("❌ Erro ao atualizar status. Tente novamente.");
     }
   }
@@ -282,7 +282,7 @@ export default function Dashboard() {
       alert("✅ Motorista criado com sucesso!");
       fecharModal();
     } catch (error) {
-      console.error(error);
+      console.log(error);
       alert("❌ Erro ao criar motorista. Tente novamente.");
     }
   }
@@ -308,7 +308,7 @@ export default function Dashboard() {
       alert("✅ Caminhão criado com sucesso!");
       fecharModal();
     } catch (error) {
-      console.error(error);
+      console.log(error);
       alert("❌ Erro ao criar caminhão. Tente novamente.");
     }
   }

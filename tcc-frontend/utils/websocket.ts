@@ -31,7 +31,7 @@ export const connectWebSocket = (jwt: string, userId: string) => {
 	};
 
 	ws.onerror = (err) => {
-		console.error("Erro no WebSocket:", err);
+		console.log("Erro no WebSocket:", err);
 	};
 };
 
