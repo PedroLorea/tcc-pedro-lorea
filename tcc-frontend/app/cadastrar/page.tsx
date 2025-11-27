@@ -111,10 +111,10 @@ export default function RegisterPage() {
 
       {/* Lado Direito - Formulário */}
       <div className="flex flex-1 items-center justify-center p-8 bg-gray-50">
-        <div className="w-full max-w-md space-y-8">
+        <div className="w-full max-w-md space-y-6">
           {/* Título */}
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-gray-800">Crie sua conta</h1>
+            <h1 className="text-3xl font-bold text-gray-800">Crie sua conta</h1>
             <p className="text-gray-500 mt-2">Preencha os dados abaixo</p>
           </div>
 
@@ -126,7 +126,7 @@ export default function RegisterPage() {
           )}
 
           {/* Formulário */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-3">
             {/* CNPJ */}
             <div>
               <label className="block text-sm font-medium text-gray-700">
